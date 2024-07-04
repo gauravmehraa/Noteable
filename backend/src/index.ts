@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.routes";
 import noteRoutes from "./routes/notes.routes";
+import connectToDB from "./db/connect";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/notes", noteRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  connectToDB();
   console.log(`Server running on port ${PORT}`);
 });
