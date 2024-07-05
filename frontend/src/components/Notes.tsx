@@ -4,8 +4,9 @@ import Note from './Note';
 
 const Notes = () => {
   const { loading, notes } = useGetNotes();
+
   return (
-    <div className='flex flex-row flex-wrap'>
+    <div className='flex flex-row flex-wrap justify-center'>
 
       { loading ?
       <div className='loading loading-spinner'></div>
@@ -17,8 +18,8 @@ const Notes = () => {
           </div>
         ))
         :
-        <div className='flex flex-col items-center w-full justify-evenly min-h-36'>
-          no notes
+        <div className='mt-6 text-2xl font-semibold px-2 text-center'>
+          You haven't added any notes yet!
         </div>
       }
   </div>

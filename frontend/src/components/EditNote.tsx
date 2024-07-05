@@ -1,31 +1,26 @@
 import { useState } from 'react'
-import { IoMdAdd } from "react-icons/io";
-import useAddNote from '../hooks/useAddNote';
+import { MdEdit } from "react-icons/md";
+import useEditNote from '../hooks/useEditNote';
 
-const AddNote = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const { loading, addNote } = useAddNote();
-
-  const handleCancel: any = async(e: MouseEvent) => {
-    setTitle("");
-    setContent("");
-  }
+const EditNote = (props: {note: any}) => {
+  const [title, setTitle] = useState(props.note.title);
+  const [content, setContent] = useState(props.note.content);
+  const { loading, editNote } = useEditNote();
 
   const handleSubmit: any = async(e: MouseEvent) => {
-    await addNote(title, content);
+    await editNote(props.note._id, title, content);
   }
 
   return (
     <div>
-      <button className='btn btn-square justify-center items-center flex bg-red-800 text-white' onClick={()=>(document.getElementById('add_note_modal') as HTMLDialogElement).showModal()}>
-        <IoMdAdd className='w-6 h-6 mx-auto'/>
+      <button className='btn btn-square justify-center items-center flex bg-blue-800 text-white' onClick={()=>(document.getElementById(`edit_note_modal_${props.note._id}`) as HTMLDialogElement).showModal()}>
+        <MdEdit className='w-6 h-6 mx-auto mr-3 text-white'/>
       </button>
       
-      <dialog id="add_note_modal" className="modal">
+      <dialog id={`edit_note_modal_${props.note._id}`} className="modal">
         <div className="modal-box w-11/12 max-w-xl">
           <h3 className="font-bold text-xl text-white">
-            Add Note
+            Edit Note
           </h3>
           <div>
             <label className="mt-6 input input-bordered flex items-center gap-2 focus:outline-none">
@@ -56,9 +51,9 @@ const AddNote = () => {
           
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn m-2 btn-error" onClick={handleCancel}>Cancel</button>
+              <button className="btn m-2 btn-error">Cancel</button>
               <button className="btn m-2 btn-success" type='submit' onClick={handleSubmit}>
-                { loading ? <span className='loading loading-spinner'></span>: "Add" }
+                { loading ? <span className='loading loading-spinner'></span>: "Save" }
               </button>
             </form>
           </div>
@@ -68,4 +63,4 @@ const AddNote = () => {
   )
 }
 
-export default AddNote
+export default EditNote

@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
-const useGetNotes = () => {
-  const [loading, setLoading] = useState(false);
-  const [notes, setNotes] = useState([]);
+const useDeleteNote = () => {
 
-  useEffect( () => {
-  const getNotes = async() => {
+  const [loading, setLoading] = useState(false);
+
+  const deleteNote = async(noteid: string) => {
     setLoading(true);
     try{
-      const response: Response = await fetch('/api/notes/');
+      const response: Response = await fetch(`/api/notes/delete/${noteid}`,{
+        method: "DELETE"
+      });
       
       const data = await response.json();
       if(data.error){
         throw new Error(data.error);
       }
-      
-      setNotes(data);
+      toast.success("Note successfully deleted.");
     }
     catch (error){
       toast.error((error as Error).message);
@@ -25,10 +25,8 @@ const useGetNotes = () => {
       setLoading(false);
     }
   }
-    getNotes();
-  }, []);
 
-  return { loading, notes };
+  return { loading, deleteNote };
 }
 
-export default useGetNotes;
+export default useDeleteNote;

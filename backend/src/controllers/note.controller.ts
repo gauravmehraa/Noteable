@@ -20,6 +20,16 @@ export const addNote = async (req: Request, res: Response): Promise<void> => {
   try{
     const { title, content } = req.body;
     const userId: Types.ObjectId = req.user._id as Types.ObjectId;
+
+    if(title.length < 6){
+      res.status(400).json({error: "Title is too short."});
+      return;
+    }
+    if(content.length < 6){
+      res.status(400).json({error: "Content is too short."});
+      return;
+    }
+
     const newNote = new Note({
       userId, title, content
     })

@@ -10,7 +10,7 @@ const useRegister = () => {
     { name: string, username: string, password: string, confirmPassword: string }) => {
     const success: boolean = handleInputErrors({ name, username, password, confirmPassword });
     if(!success) return;
-      setLoading(true);
+    setLoading(true);
     try{
 
       const response: Response = await fetch("/api/auth/register",{

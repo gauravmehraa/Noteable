@@ -1,17 +1,17 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-const useAddNote = () => {
+const useEditNote = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const addNote = async(title: string, content: string) => {
+  const editNote = async(noteid: string, title: string, content: string) => {
     const success: boolean = handleInputErrors({ title, content });
     if(!success) return;
     setLoading(true);
     try{
-      const response: Response = await fetch('/api/notes/add',{
-        method: "POST",
+      const response: Response = await fetch(`/api/notes/update/${noteid}`,{
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, content })
       });
@@ -20,7 +20,7 @@ const useAddNote = () => {
       if(data.error){
         throw new Error(data.error);
       }
-      toast.success("Note successfully added.");
+      toast.success("Note successfully edited.");
     }
     catch (error){
       toast.error((error as Error).message);
@@ -30,7 +30,7 @@ const useAddNote = () => {
     }
   }
 
-  return { loading, addNote };
+  return { loading, editNote };
 }
 
 function handleInputErrors({ title, content }:
@@ -53,4 +53,4 @@ function handleInputErrors({ title, content }:
   return true;
 }
 
-export default useAddNote;
+export default useEditNote;
