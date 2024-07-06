@@ -150,7 +150,5 @@ MERN Stack
 
 **API:** REST
 
-**Hashing:** bcryptjs
-
-**Deployment:** AWS Elastic Beanstalk
-([Deployed Link](secureu.eba-ad3awdfi.ap-south-1.elasticbeanstalk.com))
+**Backend Server Deployment:** AWS Elastic Beanstalk
+([Deployed Link](http://secureu.eba-ad3awdfi.ap-south-1.elasticbeanstalk.com))
