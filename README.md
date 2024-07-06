@@ -52,7 +52,7 @@ Start the frontend
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file in /backend/
 
 `PORT` - Specify server port
 
