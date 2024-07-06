@@ -1,8 +1,12 @@
-declare namespace Express {
-  export interface Request {
-      user?: IUser;
-  }
-  export interface Response {
-      user?: any;
+import session from 'express-session';
+import { Types } from 'mongoose';
+
+declare module 'express-session' {
+  export interface SessionData {
+    authenticated: boolean;
+    user: {
+      id: Types.ObjectId;
+      username: string;
+    };
   }
 }

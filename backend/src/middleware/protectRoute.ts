@@ -1,29 +1,26 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import User, { IUser } from "../models/user.model";
 
 const protectRoute = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try{
-    const token: string | undefined = req.cookies.jwt;
-    if(!token){
-      res.status(401).json({error: "Unauthorized - No token provided"});
-      return;
-    }
-    
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-    if(!decoded){
-      res.status(401).json({error: "Unauthorized - Invalid token"});
+    if(!req.session.authenticated){
+      res.status(401).json({error: "Unauthorized - Session expired"});
       return;
     }
 
-    const user: IUser | null = await User.findById((decoded as JwtPayload).userId).select("-password");
+    const userId = req.session.user?.id;
+    if (!userId) {
+      res.status(401).json({ error: "Unauthorized - Invalid session userID" });
+      return
+    }
+
+    const user: IUser | null = await User.findById(req.session.user?.id).select("-password");
+
     if(!user){
       res.status(404).json({error: "User not found"});
       return;
     }
-
-    req.user = user;
-
+    
     next();
   }
   catch (error){

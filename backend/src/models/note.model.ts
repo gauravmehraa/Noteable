@@ -5,6 +5,7 @@ export interface INote{
   userId: Types.ObjectId;
   title: string;
   content: string;
+  created: Date,
 }
 
 const noteSchema = new Schema<INote>({
@@ -23,6 +24,10 @@ const noteSchema = new Schema<INote>({
     required: true,
     minlength: 6,
   },
+  created: {
+    type: Date,
+    required: false,
+  }
 }, { timestamps: true });
 
 const Note = model<INote>("Note", noteSchema);

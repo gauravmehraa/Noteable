@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/user.model";
 import bcrypt from "bcryptjs";
-import generateToken from "../utils/token";
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try{
@@ -19,7 +18,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
     
-    //password hashing using bcrypt
+    // password hashing using bcrypt
     const passwordSalt: string = await bcrypt.genSalt(10);
     const hashedPassword: string = await bcrypt.hash(password, passwordSalt);
 
@@ -28,18 +27,15 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       username,
       password: hashedPassword,
     });
-    if(newUser){
-      generateToken(newUser._id, res);
-      await newUser.save();
-      res.status(201).json({
-        _id: newUser._id,
-        name: newUser.name,
-        username: newUser.username,
-      });
+
+    await newUser.save();
+    req.session.authenticated = true;
+    req.session.user = {
+      id: newUser._id,
+      username: newUser.username
     }
-    else{
-      res.status(400).json({error: "Invalid User Data"});
-    }
+
+    res.status(201).json(req.session);
   }
   catch (error) {
     console.log("Error in Register User controller", (error as Error).message);
@@ -64,12 +60,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    generateToken(user._id, res);
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      username: user.username,
-    });
+    req.session.authenticated = true;
+    req.session.user = {
+      id: user._id,
+      username: user.username
+    }
+
+    res.status(200).json(req.session);
   }
   catch(error){
     console.log("Error in Login User controller", (error as Error).message);
@@ -79,9 +76,15 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 export const logout = async (req: Request, res: Response): Promise<void> => {
   try{
-    const username: string = req.user.username;
-    res.cookie("jwt", "", { maxAge: 0 });
-    res.status(200).json({ message: `Logged out successfully from ${username}`});
+    req.session.destroy((error) => {
+      if(error){
+        throw new Error("Error destroying session")
+      }
+      else{
+        res.clearCookie('connect.sid');
+        res.status(200).json({ message: "Logged out successfully" });
+      }
+    });
   }
   catch(error){
     console.log("Error in Logout User controller", (error as Error).message);

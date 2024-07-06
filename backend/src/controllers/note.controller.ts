@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 
 export const getNotes = async (req: Request, res: Response): Promise<void> => {
   try{
-    const userId: Types.ObjectId = req.user._id as Types.ObjectId;
+    const userId: Types.ObjectId = req.session.user?.id as Types.ObjectId;
     const notes: INote[] = await Note.find({
       userId: { $eq: userId }
     }).select("-__v");
@@ -19,20 +19,24 @@ export const getNotes = async (req: Request, res: Response): Promise<void> => {
 export const addNote = async (req: Request, res: Response): Promise<void> => {
   try{
     const { title, content } = req.body;
-    const userId: Types.ObjectId = req.user._id as Types.ObjectId;
+    const userId: Types.ObjectId = req.session.user?.id as Types.ObjectId;
 
+    // Validate title
     if(title.length < 6){
       res.status(400).json({error: "Title is too short."});
       return;
     }
+
+    // Validate content
     if(content.length < 6){
       res.status(400).json({error: "Content is too short."});
       return;
     }
 
     const newNote = new Note({
-      userId, title, content
+      userId, title, content, created: new Date()
     })
+
     if(newNote){
       newNote.save();
       res.status(201).json({
@@ -40,6 +44,7 @@ export const addNote = async (req: Request, res: Response): Promise<void> => {
         userId: newNote.userId,
         title: newNote.title,
         content: newNote.content,
+        created: newNote.created,
       });
     }
     else{
@@ -55,8 +60,9 @@ export const addNote = async (req: Request, res: Response): Promise<void> => {
 export const updateNote = async(req: Request, res: Response): Promise<void> => {
   try{
     const { id: noteId } = req.params;
-    const userId: Types.ObjectId = req.user._id as Types.ObjectId;
+    const userId: Types.ObjectId = req.session.user?.id as Types.ObjectId;
     const { title, content } = await req.body;
+
     const updatedData: any = { title, content };
 
     const note = await Note.findOneAndUpdate(
@@ -71,7 +77,7 @@ export const updateNote = async(req: Request, res: Response): Promise<void> => {
     }
 
     await note.save();
-    res.status(201).json(note);
+    res.status(200).json(note);
   }
   catch (error) {
     console.log("Error in Update Note controller", (error as Error).message);
@@ -82,7 +88,7 @@ export const updateNote = async(req: Request, res: Response): Promise<void> => {
 export const deleteNote = async(req: Request, res: Response): Promise<void> => {
   try{
     const { id: noteId } = req.params;
-    const userId: Types.ObjectId = req.user._id as Types.ObjectId;
+    const userId: Types.ObjectId = req.session.user?.id as Types.ObjectId;
 
     const note = await Note.findOne({
       _id: noteId,
@@ -95,7 +101,7 @@ export const deleteNote = async(req: Request, res: Response): Promise<void> => {
     }
 
     await Note.findByIdAndDelete(noteId);
-    res.status(201).json({message: "Note successfully deleted"});
+    res.status(200).json({message: "Note successfully deleted"});
   }
   catch (error) {
     console.log("Error in Delete Note controller", (error as Error).message);
