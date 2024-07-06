@@ -10,7 +10,7 @@ const DeleteNote = (props: {note: any}) => {
   }
 
   return (
-    <div>
+    <div className="text-white font-normal">
       <button className='btn btn-square justify-center items-center flex bg-blue-800 text-white' onClick={()=>(document.getElementById(`delete_note_modal_${props.note._id}`) as HTMLDialogElement).showModal()}>
           <MdDeleteForever className='w-6 h-6 mx-auto mr-3 text-white'/>
         </button>
@@ -22,7 +22,7 @@ const DeleteNote = (props: {note: any}) => {
           </h3>
           <div className='mt-4 text-md'>Title: {props.note.title}</div>
           <div className='text-md'>Content: {props.note.content}</div>
-          <div className='text-md'>Created at: {generateTimestamp(props.note.createdAt)}</div>
+          <div className='text-md'>Created at: {generateTimestamp(props.note.created)}</div>
           <p className="py-4 text-lg">Notes once deleted cannot be recovered.</p>
           
           <div className="modal-action">

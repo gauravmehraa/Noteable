@@ -18,7 +18,7 @@ export const useAuthContext = (): AuthContextType => useContext(AuthContext);
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const [authUser, setAuthUser] = useState(
-    JSON.parse(localStorage.getItem("notes-user") || "null")
+    JSON.parse(sessionStorage.getItem("notes-user") || "null")
   );
   return(
     <AuthContext.Provider value = {{authUser, setAuthUser}}>

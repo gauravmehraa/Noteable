@@ -1,9 +1,9 @@
 import React from 'react'
-import useGetNotes from '../hooks/useGetNotes'
+import { useNotes } from '../context/NotesContext';
 import Note from './Note';
 
 const Notes = () => {
-  const { loading, notes } = useGetNotes();
+  const { loading, notes } = useNotes();
 
   return (
     <div className='flex flex-row flex-wrap justify-center'>
@@ -13,7 +13,7 @@ const Notes = () => {
       :
         notes.length > 0 ?
         notes.map((note: { _id: React.Key | null | undefined; }) => (
-          <div key={note._id} className=''>
+          <div key={note._id}>
             <Note data={note}/>
           </div>
         ))

@@ -14,6 +14,8 @@ const AddNote = () => {
 
   const handleSubmit: any = async(e: MouseEvent) => {
     await addNote(title, content);
+    setTitle("");
+    setContent("");
   }
 
   return (

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNotes } from "../context/NotesContext";
 
 const useAddNote = () => {
-
   const [loading, setLoading] = useState(false);
+  const { addNoteContext } = useNotes();
 
   const addNote = async(title: string, content: string) => {
     const success: boolean = handleInputErrors({ title, content });
@@ -21,6 +22,8 @@ const useAddNote = () => {
         throw new Error(data.error);
       }
       toast.success("Note successfully added.");
+      console.log(data);
+      addNoteContext(data);
     }
     catch (error){
       toast.error((error as Error).message);

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useAuthContext } from '../context/AuthContext';
 import toast from 'react-hot-toast';
+import { useNotes } from '../context/NotesContext';
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const { setAuthUser } = useAuthContext();
-
+  const { refreshNotes } = useNotes();
+ 
   const login = async(username: string, password: string) => {
     const success: boolean = handleInputErrors(username, password);
     if(!success) return;
@@ -22,12 +24,13 @@ const useLogin = () => {
       if(data.error){
         throw new Error(data.error);
       }
-      
+
       //cache
-      localStorage.setItem("notes-user", JSON.stringify(data));
+      sessionStorage.setItem("notes-user", JSON.stringify(data));
 
       //context
       setAuthUser(data);
+      refreshNotes();
       
     }
     catch (error){

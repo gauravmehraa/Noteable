@@ -1,9 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNotes } from "../context/NotesContext";
 
 const useEditNote = () => {
-
   const [loading, setLoading] = useState(false);
+  const { editNoteContext } = useNotes();
 
   const editNote = async(noteid: string, title: string, content: string) => {
     const success: boolean = handleInputErrors({ title, content });
@@ -21,6 +22,7 @@ const useEditNote = () => {
         throw new Error(data.error);
       }
       toast.success("Note successfully edited.");
+      editNoteContext(data);
     }
     catch (error){
       toast.error((error as Error).message);

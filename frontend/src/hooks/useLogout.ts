@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useAuthContext } from '../context/AuthContext';
+import { useNotes } from '../context/NotesContext';
 
 const useLogout = () => {
   const [loading, setLoading] = useState(false);
   const { setAuthUser } = useAuthContext();
+  const { clearNotesContext } = useNotes();
 
   const logout = async() => {
     setLoading(true);
@@ -20,10 +22,11 @@ const useLogout = () => {
       }
 
       //cache
-      localStorage.removeItem("notes-user");
+      sessionStorage.removeItem("notes-user");
 
       //context
       setAuthUser(null);
+      clearNotesContext();
       
     }
     catch (error){

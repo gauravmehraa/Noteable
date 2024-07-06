@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useRegister from '../hooks/useRegister';
 import { MdPerson, MdPassword } from "react-icons/md";

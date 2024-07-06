@@ -27,7 +27,7 @@ const useRegister = () => {
       }
 
       //cache
-      localStorage.setItem("notes-user", JSON.stringify(data));
+      sessionStorage.setItem("notes-user", JSON.stringify(data));
 
       //context
       setAuthUser(data);

@@ -7,12 +7,17 @@ const EditNote = (props: {note: any}) => {
   const [content, setContent] = useState(props.note.content);
   const { loading, editNote } = useEditNote();
 
+  const handleCancel: any = async(e: MouseEvent) => {
+    setTitle(props.note.title);
+    setContent(props.note.content);
+  }
+
   const handleSubmit: any = async(e: MouseEvent) => {
     await editNote(props.note._id, title, content);
   }
 
   return (
-    <div>
+    <div className='text-white font-normal'>
       <button className='btn btn-square justify-center items-center flex bg-blue-800 text-white' onClick={()=>(document.getElementById(`edit_note_modal_${props.note._id}`) as HTMLDialogElement).showModal()}>
         <MdEdit className='w-6 h-6 mx-auto mr-3 text-white'/>
       </button>
@@ -51,7 +56,7 @@ const EditNote = (props: {note: any}) => {
           
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn m-2 btn-error">Cancel</button>
+              <button className="btn m-2 btn-error" onClick={handleCancel}>Cancel</button>
               <button className="btn m-2 btn-success" type='submit' onClick={handleSubmit}>
                 { loading ? <span className='loading loading-spinner'></span>: "Save" }
               </button>
