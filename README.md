@@ -1,5 +1,5 @@
 
-# SecureU Assignment - Personal Notes App
+# Noteable - Personal Notes App
 
 This application is a user-friendly web app designed for creating, editing, and managing personal notes. With secure user authentication and session management, it ensures your data remains private. The app has a responsive UI where notes are dynamically updated and displayed. Whether you're jotting down quick reminders or detailed notes, this app provides a simple and reliable solution for all your note-taking needs.
 
@@ -19,13 +19,13 @@ This application is a user-friendly web app designed for creating, editing, and 
 Clone the project
 
 ```bash
-  git clone https://github.com/gauravmehraa/SecureU-Assignment
+  git clone https://github.com/gauravmehraa/Noteable
 ```
 
 Go to the project directory
 
 ```bash
-  cd SecureU-Assignment
+  cd Noteable
 ```
 
 Install dependencies
@@ -149,6 +149,3 @@ MERN Stack
 **Database:** MongoDB
 
 **API:** REST
-
-**Backend Server Deployment:** AWS Elastic Beanstalk
-([Deployed Link](http://secureu.eba-ad3awdfi.ap-south-1.elasticbeanstalk.com))
