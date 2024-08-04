@@ -4,6 +4,7 @@ import Note from './Note';
 
 const Notes = () => {
   const { loading, notes } = useNotes();
+  const sortedNotes = notes.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
 
   return (
     <div className='flex flex-row flex-wrap justify-center'>
@@ -11,8 +12,8 @@ const Notes = () => {
       { loading ?
       <div className='loading loading-spinner'></div>
       :
-        notes.length > 0 ?
-        notes.map((note: { _id: React.Key | null | undefined; }) => (
+        sortedNotes.length > 0 ?
+        sortedNotes.map((note: { _id: React.Key | null | undefined; }) => (
           <div key={note._id}>
             <Note data={note}/>
           </div>
