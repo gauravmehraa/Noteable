@@ -1,7 +1,10 @@
 
+![Logo](https://i.imgur.com/DbI2Drz.png)
+
+
 # Noteable - Personal Notes App
 
-This application is a user-friendly web app designed for creating, editing, and managing personal notes. With secure user authentication and session management, it ensures your data remains private. The app has a responsive UI where notes are dynamically updated and displayed. Whether you're jotting down quick reminders or detailed notes, this app provides a simple and reliable solution for all your note-taking needs.
+Noteable is a user-friendly web app designed for creating, editing, and managing personal notes. With secure user authentication and session management, it ensures your data remains private. Noteable has a responsive UI where notes are dynamically updated and displayed. Whether you're jotting down quick reminders or detailed notes, this app provides a simple and reliable solution for all your note-taking needs.
 
 
 ## Features
